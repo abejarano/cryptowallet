@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Send Coins</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <ion-label fixed>Amount</ion-label>
+      <ion-input type="number" [(ngModel)]="amount"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label fixed>Address</ion-label>
+      <ion-input type="text" [(ngModel)]="wallet"></ion-input>
+    </ion-item>
+  </ion-list>
+  <button block ion-button (click)="sendCoins()">Enviar</button>
+</ion-content>

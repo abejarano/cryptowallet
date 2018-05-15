@@ -7,8 +7,12 @@
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+  <h6 text-center><span>Balance</span></h6>
+  <h1 text-center>{{balance}}</h1>
+
+  <br>
+  <br>
+  <br>
+<button block ion-button (click)="sendCoins()">Enviar</button>
+<button block ion-button (click)="depositCoins()">Recibir</button>
 </ion-content>
