@@ -77,7 +77,7 @@ export class OnixjsProvider {
         console.log(2)
           
           //formula de calculo
-          var fee = 0.0001;
+          var fee = 0.0015;
           if (gasto > balance) {
             return "No existen fondos suficientes"
           }
