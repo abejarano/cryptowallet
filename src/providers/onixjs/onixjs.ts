@@ -66,16 +66,15 @@ export class OnixjsProvider {
   sendTransaction(gasto, walletpago, balance) {
     return new Promise((resolve, reject) => {
       try{
-        gasto = parseFloat(gasto); 
-        balance = parseFloat(balance);
-
+        
         var tx = new bitcoin.TransactionBuilder(bitcoin.networks.testnet);
         
         //se agregan los inpts necesarios para las biteras de pagos y para las billeteras de cambio;
-          
+          console.log(1)
           for (const input of this.objAddr) { //llamo a la propieda objAddr que tiene las wallets con fondos para enviar
             tx.addInput(input.txid, input.txvout);
           }
+        console.log(2)
           
           //formula de calculo
           var fee = 0.0001;
@@ -83,19 +82,23 @@ export class OnixjsProvider {
             return "No existen fondos suficientes"
           }
           gasto = sb.toSatoshi(gasto);
-          let amount = sb.toSatoshi(gasto) - sb.toSatoshi(fee);
+
+        let amount = gasto + sb.toSatoshi(fee);
          
-          let restante = sb.toSatoshi(balance) - amount;
+        let restante = parseInt(sb.toSatoshi(balance)) - amount;
           
-          if (restante < 0) {
-            return "No existen fondos suficientes"
-          }
+        console.log(restante, amount, sb.toSatoshi(balance));
+
+        if (restante < 0) {
+          return "No existen fondos suficientes"
+        }
+        console.log(4);
           //se generan los outputs necesarios para los transacciones (enviar billetera de cambio, y pago a otra persona)
           //si existe balance luego del gasto y de fee lo envio a una wallet de cambio
           console.log(restante);
           
           tx.addOutput(walletpago, gasto);
-
+          
           if (restante > 0) {
             tx.addOutput(this.generateChangeWallet(), restante);//envio a una addr de cambio addr interna 
           } 

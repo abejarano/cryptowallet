@@ -49,7 +49,7 @@ export class SendPage {
         this.navCtrl.setRoot(HomePage);
     });
    }).catch(e=>{
-     console.log('errr')
+     console.log(e);
    });
   }
 
