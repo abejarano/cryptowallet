@@ -27,10 +27,11 @@ export class HomePage {
 
   checkInternalAddress(inx){
     this.addr = this.onix.getKeyAddr(this.onix.getInternalAddr(inx));
-    console.log(this.addr, 'catolce');
+    
   }
   checkExternalAddress(inx) {
     this.addr = this.onix.getKeyAddr(this.onix.getExternalAddr(inx));
+    console.log(this.addr, 'catolce');
   }
 
   getBalances(value, type){ 

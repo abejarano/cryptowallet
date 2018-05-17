@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { OnixjsProvider } from '../../providers/onixjs/onixjs';
 import { Storage } from '@ionic/storage';
-
+import { HomePage } from '../home/home'
 
 /**
  * Generated class for the SendPage page.
@@ -42,15 +42,15 @@ export class SendPage {
   }
 
   sendCoins() {
-
-    console.log(this.amount, this.wallet);
-    let transaccion = this.onix.sendTransaction(this.amount, this.wallet, this.balance);
-    console.log(transaccion);
-    if (transaccion) {
-      this.onix.sendInApi(transaccion).then(resp => {
+   this.onix.sendTransaction(this.amount, this.wallet, this.balance).then((Response)=>{
+    console.log(Response);  
+    this.onix.sendInApi(Response).then(resp => {
         console.log(resp);
-      });
-    }
+        this.navCtrl.setRoot(HomePage);
+    });
+   }).catch(e=>{
+     console.log('errr')
+   });
   }
 
 }
