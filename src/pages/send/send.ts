@@ -3,13 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { OnixjsProvider } from '../../providers/onixjs/onixjs';
 import { Storage } from '@ionic/storage';
 import { HomePage } from '../home/home'
-
-/**
- * Generated class for the SendPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 @IonicPage()
 @Component({
@@ -25,7 +19,7 @@ export class SendPage {
 
   wallet: any;
   amount: 0;
-  constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage, private onix: OnixjsProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage, private onix: OnixjsProvider, private barcodeScanner: BarcodeScanner) {
  
   }
 
@@ -51,6 +45,20 @@ export class SendPage {
    }).catch(e=>{
      console.log(e);
    });
+  }
+
+
+  scanCode() {
+    this.barcodeScanner.scan().then(barcodeData => {
+      console.log(barcodeData);
+      this.wallet = barcodeData.text;
+   
+
+    }, (err) => {
+
+      console.log('Error: ', err);
+     
+    });
   }
 
 }

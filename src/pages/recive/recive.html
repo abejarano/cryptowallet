@@ -7,4 +7,11 @@
 
 <ion-content padding>
   
+  <h3 text-center>{{createdCode}}</h3>
+  <ion-item>
+    <ion-label fixed > Amount </ion-label>
+    <ion-input type="number" [(ngModel)]="amount"></ion-input>
+  </ion-item>
+  <ngx-qrcode [qrc-value]="createdCode"></ngx-qrcode>
+  
 </ion-content>

@@ -13,6 +13,7 @@ export class HomePage {
   contador=0;
   balance=0;
   entrada=false;
+  principal:any;
 
   wallet:any;
   amount:0;
@@ -30,8 +31,12 @@ export class HomePage {
     
   }
   checkExternalAddress(inx) {
+    let i = 0;
     this.addr = this.onix.getKeyAddr(this.onix.getExternalAddr(inx));
-    console.log(this.addr, 'catolce');
+    if (i == 0){
+      this.principal = this.addr;
+    } 
+    i++;
   }
 
   getBalances(value, type){ 
@@ -73,15 +78,14 @@ export class HomePage {
           }
           
         });
-      }
+      } 
         
   }
 
   depositCoins(){
-    this.navCtrl.setRoot('RecivePage');
+    this.navCtrl.setRoot('RecivePage', { 'wallet': this.principal });
   }
   sendCoins(){
     this.navCtrl.setRoot('SendPage');
   }
 }
- 
