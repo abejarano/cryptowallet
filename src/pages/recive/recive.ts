@@ -16,4 +16,8 @@ export class RecivePage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad RecivePage');
   }
+  copy(){
+    document.getElementById("direccion").textContent;
+    document.execCommand("copy");
+  }
 }

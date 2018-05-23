@@ -11,25 +11,38 @@ export class HomePage {
   init:any;
   addr:any;
   contador=0;
-  balance=0;
+  balance:any=0;
   entrada=false;
   principal:any;
-
+  acumulador:any=0;
   wallet:any;
   amount:0;
+  trans:any;
 
   constructor(public navCtrl: NavController, private storage: Storage, private onix: OnixjsProvider) {
     //this.storage.set('configuracion', this.onix);
-
-   
+    //this.storage.set('transacciones', []); 
+    this.storage.get('balance').then(saldo =>{
+      this.balance = saldo;
+    });
     this.getBalances(0, 'ext');
     
+    
+  }
+  ionViewDidLoad() { 
+    this.checkTrans();
+  }
+  checkTrans(){
+    this.storage.get('transacciones').then(trans=>{
+      this.trans = trans.reverse(); 
+      console.log(this.trans);
+    });
   }
 
   checkInternalAddress(inx){
     this.addr = this.onix.getKeyAddr(this.onix.getInternalAddr(inx));
-    
   }
+
   checkExternalAddress(inx) {
     let i = 0;
     this.addr = this.onix.getKeyAddr(this.onix.getExternalAddr(inx));
@@ -65,18 +78,18 @@ export class HomePage {
           }else{
             //existe banlance y se reseta el contador para que siga preguntando
               if (resp.data.length > 0) {
+                console.log(resp.data);
                 for (let index = 0; index < resp.data.length; index++) {
-                  this.balance += resp.data[index].amount;
+                  this.acumulador += resp.data[index].amount;
                   //guardar la addrs que poseen fondos 
-                  this.storage.set('balance', this.balance);
                   this.onix.AdrressInputsObject(resp.data[index]);
                 }
+                this.storage.set('balance', this.acumulador); 
              
               }
             this.contador = 0;
             this.getBalances(value + 1, type );        
           }
-          
         });
       } 
         
@@ -86,6 +99,6 @@ export class HomePage {
     this.navCtrl.setRoot('RecivePage', { 'wallet': this.principal });
   }
   sendCoins(){
-    this.navCtrl.setRoot('SendPage');
+    this.navCtrl.setRoot('SendPage');  
   }
 }

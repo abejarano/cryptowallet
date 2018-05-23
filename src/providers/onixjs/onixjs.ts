@@ -37,7 +37,7 @@ export class OnixjsProvider {
 
   setpath(path) {
     this.child = this.root.derivePath(path);
-    this.storage.set('pv', this.child);
+    //this.storage.set('pv', this.child);
   }
 
   getKeyAddr(path) {
@@ -50,22 +50,22 @@ export class OnixjsProvider {
   //almacenar llaves pvt para su respectiva llave pbl
   objKeyPairGenerator() {
     this.objKeyPair.push({ addr: this.addrpoint, pvtKey: this.child.keyPair })
-    this.storage.set('pvkey', this.objKeyPair);
+   // this.storage.set('pvkey', this.objKeyPair);
   }
 
   AdrressInputsObject(addr) {
     this.objAddr.push({ txid: addr.txid, txvout: addr.vout, pvtKey: this.child.keyPair});
-
+/*
     this.storage.set('inputs', this.objAddr);
     this.storage.get('inputs').then((resp) => {
       console.log(resp);
     });
-    
+    */
   }
 
-  sendTransaction(gasto, walletpago, balance) {
+  sendTransaction(gasto, walletpago, balance) { 
     return new Promise((resolve, reject) => {
-      try{
+      try{ 
         
         var tx = new bitcoin.TransactionBuilder(bitcoin.networks.testnet);
         
@@ -130,5 +130,5 @@ export class OnixjsProvider {
 
     return axios.post(url, {rawtx: hash});
   }
-
+  
 }

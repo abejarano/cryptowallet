@@ -1,17 +1,21 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>Deposit Onix</ion-title>
+  <ion-navbar color="dark">
+    <ion-title text-center>DEPOSIT COINS</ion-title>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content padding>
   
-  <h3 text-center>{{createdCode}}</h3>
-  <ion-item>
+  <!-- <ion-item>
     <ion-label fixed > Amount </ion-label>
     <ion-input type="number" [(ngModel)]="amount"></ion-input>
-  </ion-item>
+  </ion-item>-->
   <ngx-qrcode [qrc-value]="createdCode"></ngx-qrcode>
+  <p text-center> Mi direccion</p>
+  <div >
+    <input type="text" style="background: #222; color:#fff; width:100%;font-size:0.9em; border: none;" text-center id="direccion" disabled value="{{createdCode}}">
+  </div>
+  <button (click)="copy()"   float-right color="dark" ion-button><ion-icon name="copy"></ion-icon></button>
   
 </ion-content>

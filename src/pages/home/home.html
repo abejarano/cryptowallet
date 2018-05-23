@@ -1,7 +1,7 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>
-      Ionic Blank
+  <ion-navbar color="dark">
+    <ion-title text-center>
+      CRYPTOWALLET
     </ion-title>
   </ion-navbar>
 </ion-header>
@@ -9,10 +9,22 @@
 <ion-content padding>
   <h6 text-center><span>Balance</span></h6>
   <h1 text-center>{{balance}}</h1>
-
   <br>
-  <br>
-  <br>
-<button block ion-button (click)="sendCoins()">Enviar</button>
-<button block ion-button (click)="depositCoins()">Recibir</button>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <button block floating ion-button color="dark" (click)="sendCoins()">Enviar</button>
+      </ion-col>
+      <ion-col>
+        <button block floating ion-button color="dark" (click)="depositCoins()">Depositar</button>
+      </ion-col>
+    </ion-row> 
+  </ion-grid>
+  <ion-card *ngFor="let item of trans">
+    <ion-card-content>
+      <p style="font-size:0.8em;"><b> Amount:</b>  {{item.amount}}</p>
+      <p style="font-size:0.8em;"><b> Send To:</b> {{item.wallet}}</p>
+      <p style="font-size:0.8em;"><b> TxID: </b> {{item.txid}}</p>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
