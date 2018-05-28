@@ -14,46 +14,57 @@ export class HomePage {
   balance:any=0;
   entrada=false;
   principal:any;
-  acumulador:any=0;
   wallet:any;
   amount:0;
   trans:any;
+  acumulador=0;
+  saldo = 0;
+
 
   constructor(public navCtrl: NavController, private storage: Storage, private onix: OnixjsProvider) {
-    //this.storage.set('configuracion', this.onix);
-    //this.storage.set('transacciones', []); 
-    this.storage.get('balance').then(saldo =>{
-      this.balance = saldo;
-    });
-    this.getBalances(0, 'ext');
-    
-    
+    this.getBalances(0,'ext');
+    this.depositAdress();
   }
   ionViewDidLoad() { 
-    this.checkTrans();
+    this.getEstatus();
+  }
+  getEstatus(){ 
+      setTimeout(() => {
+        this.checkBalance(); 
+        this.checkTrans();
+      }, 5000);
   }
   checkTrans(){
-    this.storage.get('transacciones').then(trans=>{
-      this.trans = trans.reverse(); 
-      console.log(this.trans);
+    this.storage.get('transacciones').then((trans)=>{
+      
+      if (typeof (trans) != null && typeof(trans) != undefined ){
+        this.trans = trans.reverse(); 
+      }
+ 
     });
+  }
+  checkBalance(){
+      this.storage.get('balance').then(saldo => {
+        this.balance = saldo;
+        console.log(saldo);
+      });
+  }
+  depositAdress(){
+    this.principal = this.onix.getKeyAddr(this.onix.getExternalAddr(0));
   }
 
   checkInternalAddress(inx){
     this.addr = this.onix.getKeyAddr(this.onix.getInternalAddr(inx));
+   
   }
-
+  
   checkExternalAddress(inx) {
-    let i = 0;
     this.addr = this.onix.getKeyAddr(this.onix.getExternalAddr(inx));
-    if (i == 0){
-      this.principal = this.addr;
-    } 
-    i++;
   }
 
   getBalances(value, type){ 
-    
+    console.log(value, type);
+
       if(type == 'ext'){
         this.checkExternalAddress(value);
       }else{
@@ -78,21 +89,22 @@ export class HomePage {
           }else{
             //existe banlance y se reseta el contador para que siga preguntando
               if (resp.data.length > 0) {
-                console.log(resp.data);
                 for (let index = 0; index < resp.data.length; index++) {
-                  this.acumulador += resp.data[index].amount;
+                  console.log(this.acumulador, resp.data[index].amount);
+                  this.acumulador = this.acumulador + resp.data[index].amount;
+                  console.log(this.acumulador);
                   //guardar la addrs que poseen fondos 
                   this.onix.AdrressInputsObject(resp.data[index]);
                 }
                 this.storage.set('balance', this.acumulador); 
-             
+                this.contador = 0;
               }
-            this.contador = 0;
-            this.getBalances(value + 1, type );        
+            this.getBalances(value + 1, type );
+            console.log(value, ' valor a ', type, ' ', this.addr);
+                    
           }
         });
       } 
-        
   }
 
   depositCoins(){

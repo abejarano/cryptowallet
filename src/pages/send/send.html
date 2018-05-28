@@ -19,6 +19,17 @@
   </ion-list>
 
    
-  <button block ion-button (click)="scanCode()">QR SCAN</button>
-  <button block ion-button (click)="sendCoins()">Enviar</button>
+  
+  
+
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <button block ion-button color="dark" (click)="scanCode()">QR SCAN</button>
+      </ion-col>
+      <ion-col>
+        <button block ion-button color="dark" (click)="sendCoins()">Enviar</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

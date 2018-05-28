@@ -3,7 +3,6 @@ import bitcoin from 'bitcoinjs-lib'
 import bip39 from 'bip39';
 import sb from 'satoshi-bitcoin';
 import axios from 'axios';
-import { Storage } from '@ionic/storage';
 
 @Injectable()
 export class OnixjsProvider {
@@ -16,12 +15,11 @@ export class OnixjsProvider {
   objAddr = [];
   objKeyPair = []; 
 
-  constructor(private storage: Storage) {
+  constructor() {
     let strseed = "decline toe notable quote orphan captain pitch violin window unaware kick lion";
     if (typeof strseed == 'undefined') {
       strseed = bip39.generateMnemonic();//generar una nueva semilla (crear nueva cuenta)
     }
-
     this.mnemonic = strseed;
     this.seed = bip39.mnemonicToSeed(this.mnemonic);
     this.root = bitcoin.HDNode.fromSeedBuffer(this.seed, bitcoin.networks.testnet);
@@ -70,45 +68,35 @@ export class OnixjsProvider {
         var tx = new bitcoin.TransactionBuilder(bitcoin.networks.testnet);
         
         //se agregan los inpts necesarios para las biteras de pagos y para las billeteras de cambio;
-          console.log(1)
-          for (const input of this.objAddr) { //llamo a la propieda objAddr que tiene las wallets con fondos para enviar
-            tx.addInput(input.txid, input.txvout);
-          }
-        console.log(2)
-          
+        for (const input of this.objAddr) { //llamo a la propieda objAddr que tiene las wallets con fondos para enviar
+          tx.addInput(input.txid, input.txvout);
+        } 
           //formula de calculo
-          var fee = 0.0015;
+          var fee = 0.00010000;
           if (gasto > balance) {
             return "No existen fondos suficientes"
           }
           gasto = sb.toSatoshi(gasto);
 
-        let amount = gasto + sb.toSatoshi(fee);
+          let amount = gasto + sb.toSatoshi(fee);
          
-        let restante = parseInt(sb.toSatoshi(balance)) - amount;
-          
-        console.log(restante, amount, sb.toSatoshi(balance));
-
-        if (restante < 0) {
-          return "No existen fondos suficientes"
-        }
-        console.log(4);
+          let restante = parseInt(sb.toSatoshi(balance)) - amount;
+         
+          if (restante < 0) {
+            return "No existen fondos suficientes" 
+          }
           //se generan los outputs necesarios para los transacciones (enviar billetera de cambio, y pago a otra persona)
           //si existe balance luego del gasto y de fee lo envio a una wallet de cambio
-          console.log(restante);
-          
           tx.addOutput(walletpago, gasto);
-          
           if (restante > 0) {
             tx.addOutput(this.generateChangeWallet(), restante);//envio a una addr de cambio addr interna 
           } 
-
           for (let index = 0; index < this.objAddr.length; index++) {//firmar las transacciones con la llave privada
-            console.log(balance, gasto);
-            tx.sign(index,this.objAddr[index].pvtKey);
+
+            tx.sign(index, this.objAddr[index].pvtKey); 
           }
           console.log(tx.build().toHex());
-          resolve(tx.build().toHex());
+          resolve(tx.build().toHex()); 
     
       }catch(error){
         reject(error);  
@@ -117,7 +105,7 @@ export class OnixjsProvider {
   }
 
   generateChangeWallet() {//generar una wallet de cambio
-    return this.getKeyAddr(this.getExternalAddr(3));
+    return this.getKeyAddr(this.getInternalAddr(0));
   }
 
   getBalancesAddr(addr){

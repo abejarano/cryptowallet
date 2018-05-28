@@ -18,8 +18,11 @@
       <ion-col>
         <button block floating ion-button color="dark" (click)="depositCoins()">Depositar</button>
       </ion-col>
+      <ion-col>
+        <button block floating ion-button color="dark" (click)="getEstatus()">Actualizar</button>
+      </ion-col>
     </ion-row> 
-  </ion-grid>
+  </ion-grid> 
   <ion-card *ngFor="let item of trans">
     <ion-card-content>
       <p style="font-size:0.8em;"><b> Amount:</b>  {{item.amount}}</p>
