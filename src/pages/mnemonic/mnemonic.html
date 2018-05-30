@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-navbar color="dark">
+    <ion-title text-center>RECOVERY PHRASE</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col col-6 offset-3>
+        <img src="assets/imgs/logo.png" alt="" width="100%">
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <button ion-button block color="dark" (click)="generateNewSeed()">Generate new phrase</button>
+
+  <p text-center class="front-text">Or type your recovery phrase to access founds from an old account</p>
+  
+  <ion-input class="mnemonic-input" type="text" [(ngModel)]="mnemonic"></ion-input>
+  
+  <p text-center class="front-text">You should copy the recovery phrase and save it in a save place</p>
+  <p text-center class="front-text">This recovery phrase it will only be show once</p>
+
+  <ion-fab right bottom>
+    <button (click)="nextConfig()" [disabled]="next" ion-button color="dark">NEXT &nbsp;<ion-icon name="arrow-forward"></ion-icon></button>
+  </ion-fab>
+
+</ion-content>

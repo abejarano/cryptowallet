@@ -1,0 +1,99 @@
+<ion-header>
+  <ion-navbar color="dark">
+    <ion-title text-center>SECURITY PIN</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <p text-center class="front-text">Protect your founds enter a new PIN</p>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col col-2 class="pin-box"><h4 text-center> {{pinObj[0]}} </h4> </ion-col>
+      <ion-col col-2 class="pin-box"><h4 text-center> {{pinObj[1]}} </h4> </ion-col>
+      <ion-col col-2 class="pin-box"><h4 text-center> {{pinObj[2]}} </h4> </ion-col>
+      <ion-col col-2 class="pin-box"><h4 text-center> {{pinObj[3]}} </h4> </ion-col>
+      <ion-col col-2 class="pin-box"><h4 text-center> {{pinObj[4]}} </h4> </ion-col>
+      <ion-col col-2 class="pin-box"><h4 text-center> {{pinObj[5]}} </h4> </ion-col>
+    </ion-row>
+  </ion-grid>
+  <br>
+  <br>
+   <br>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col col-4 class="pin-number">
+        <ion-fab class="relativo">
+          <button color="dark" ion-fab (click)="addPinNumber(1)" >1</button>
+        </ion-fab>
+      </ion-col>
+      <ion-col col-4 class="pin-number">
+          <ion-fab class="relativo">
+            <button color="dark" ion-fab (click)="addPinNumber(2)" >2</button>
+          </ion-fab>
+      </ion-col>
+      <ion-col col-4 class="pin-number">
+          <ion-fab class="relativo">
+            <button color="dark" ion-fab (click)="addPinNumber(3)" >3</button>
+          </ion-fab>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-4 class="pin-number">
+          <ion-fab class="relativo">
+            <button color="dark" ion-fab (click)="addPinNumber(4)" >4</button>
+          </ion-fab>
+      </ion-col>
+      <ion-col col-4 class="pin-number">
+          <ion-fab class="relativo">
+            <button color="dark" ion-fab (click)="addPinNumber(5)" >5</button>
+          </ion-fab>
+      </ion-col>
+      <ion-col col-4 class="pin-number">
+          <ion-fab class="relativo">
+            <button color="dark" ion-fab (click)="addPinNumber(6)" >6</button>
+          </ion-fab>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-4 class="pin-number">
+          <ion-fab class="relativo">
+            <button color="dark" ion-fab (click)="addPinNumber(7)" >7</button>
+          </ion-fab>
+      </ion-col>
+      <ion-col col-4 class="pin-number">
+          <ion-fab class="relativo">
+            <button color="dark" ion-fab (click)="addPinNumber(8)" >8</button>
+          </ion-fab>
+      </ion-col>
+      <ion-col col-4 class="pin-number">
+          <ion-fab class="relativo">
+            <button color="dark" ion-fab (click)="addPinNumber(9)" >9</button>
+          </ion-fab>
+          </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-4 class="pin-number">
+          <ion-fab class="relativo">
+            <button color="dark" ion-fab (click)="removeAllPinNumber()" ><ion-icon name="refresh"></ion-icon></button>
+          </ion-fab>
+      </ion-col> 
+      <ion-col col-4 class="pin-number">
+          <ion-fab class="relativo">
+            <button color="dark" ion-fab (click)="addPinNumber(0)" >0</button>
+          </ion-fab>
+      </ion-col>
+      <ion-col col-4 class="pin-number">
+          <ion-fab class="relativo">
+            <button color="dark" ion-fab (click)="removePinNumber()"><ion-icon name="arrow-dropleft"></ion-icon></button>
+          </ion-fab>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+    <ion-fab right bottom>
+      <button (click)="goToAccount()" [disabled]="next" ion-button color="dark">GO TO ACCOUNT &nbsp;
+        <ion-icon name="arrow-forward"></ion-icon>
+      </button>
+    </ion-fab>
+
+</ion-content>
