@@ -22,9 +22,14 @@ export class HomePage {
 
 
   constructor(public navCtrl: NavController, private storage: Storage, private onix: OnixjsProvider) {
-    this.getBalances(0,'ext');
-    this.depositAdress();
+    this.onix.confingAccount().then(resp=>{
+      if(resp){ 
+        this.getBalances(0,'ext');
+        this.depositAdress();
+      }
+    })
   }
+
   ionViewDidLoad() { 
     this.getEstatus();
   }

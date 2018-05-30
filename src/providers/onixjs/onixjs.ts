@@ -3,6 +3,7 @@ import bitcoin from 'bitcoinjs-lib'
 import bip39 from 'bip39';
 import sb from 'satoshi-bitcoin';
 import axios from 'axios';
+import { Storage } from '@ionic/storage';
 
 @Injectable()
 export class OnixjsProvider {
@@ -14,15 +15,47 @@ export class OnixjsProvider {
   balance: 0;
   objAddr = [];
   objKeyPair = []; 
-
-  constructor() {
-    let strseed = "decline toe notable quote orphan captain pitch violin window unaware kick lion";
-    if (typeof strseed == 'undefined') {
-      strseed = bip39.generateMnemonic();//generar una nueva semilla (crear nueva cuenta)
+  onxnetwork = {
+    mainet: {
+      messagePrefix: '\x19unused:\n',
+      bip32: {
+        public: 0x049d7cb2,
+        private: 0x049d7878
+      },
+      pubKeyHash: 0x4B,
+      scriptHash: 0x05,
+      wif: 0x80
+    },
+    testnet: {
+      messagePrefix: '\x19x19unused:\n',
+      bip32: {
+        public: 0x043587cf,
+        private: 0x04358394
+      },
+      pubKeyHash: 0x6f,
+      scriptHash: 0xc4,
+      wif: 0xef
     }
-    this.mnemonic = strseed;
-    this.seed = bip39.mnemonicToSeed(this.mnemonic);
-    this.root = bitcoin.HDNode.fromSeedBuffer(this.seed, bitcoin.networks.testnet);
+  };
+
+  constructor(private storage: Storage) {
+   
+  }
+  confingAccount(){
+    return new Promise((resolve, reject) => {
+      try {
+        //let strseed = "decline toe notable quote orphan captain pitch violin window unaware kick lion";
+        this.storage.get('mnemonic').then((strseed) => {
+          this.mnemonic = strseed;
+          this.seed = bip39.mnemonicToSeed(this.mnemonic);
+          this.root = bitcoin.HDNode.fromSeedBuffer(this.seed, this.onxnetwork.testnet);
+          console.log('done')
+          resolve(true);
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    });
   }
 
   getInternalAddr(index) {
@@ -35,10 +68,10 @@ export class OnixjsProvider {
 
   setpath(path) {
     this.child = this.root.derivePath(path);
-    //this.storage.set('pv', this.child);
   }
 
   getKeyAddr(path) {
+    console.log('done3')
     this.setpath(path);
     this.addrpoint = this.child.getAddress();
     this.objKeyPairGenerator();//llamar a esta funcion para almacenar estos valores antes que fn getKeyAddr() sea invocada nuevamente
@@ -65,7 +98,7 @@ export class OnixjsProvider {
     return new Promise((resolve, reject) => {
       try{ 
         
-        var tx = new bitcoin.TransactionBuilder(bitcoin.networks.testnet);
+        var tx = new bitcoin.TransactionBuilder(this.onxnetwork.testnet);
         
         //se agregan los inpts necesarios para las biteras de pagos y para las billeteras de cambio;
         for (const input of this.objAddr) { //llamo a la propieda objAddr que tiene las wallets con fondos para enviar
@@ -109,12 +142,12 @@ export class OnixjsProvider {
   }
 
   getBalancesAddr(addr){
-    let url = 'https://test-insight.bitpay.com/api/addr/' + addr + '/utxo';
+    let url = 'http://167.99.202.240:3002/api/addr/' + addr + '/utxo';
     return axios.get(url);
   }
 
   sendInApi(hash){
-    let url ='https://test-insight.bitpay.com/api/tx/send';
+    let url ='http://167.99.202.240:3002/api/tx/send';
 
     return axios.post(url, {rawtx: hash});
   }

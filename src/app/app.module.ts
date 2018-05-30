@@ -10,25 +10,32 @@ import { OnixjsProvider } from '../providers/onixjs/onixjs';
 import { NgxQRCodeModule } from 'ngx-qrcode3';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { QRCodeModule } from 'angular2-qrcode';
+import { MnemonicPage } from '../pages/mnemonic/mnemonic';
+import { PinPage } from '../pages/pin/pin';
+
 
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage
+    HomePage, 
+    MnemonicPage,
+    PinPage
   ],
-  imports: [
+  imports: [ 
     BrowserModule, 
-    NgxQRCodeModule,  
+    NgxQRCodeModule,   
     QRCodeModule,
-    IonicModule.forRoot(MyApp),
-    IonicStorageModule.forRoot()
+    IonicModule.forRoot(MyApp), 
+    IonicStorageModule.forRoot() 
   ],
 
-  bootstrap: [IonicApp],
+  bootstrap: [IonicApp], 
   entryComponents: [
     MyApp,
-    HomePage
+    HomePage,
+    MnemonicPage,
+    PinPage
   ],
   providers: [
     StatusBar,
