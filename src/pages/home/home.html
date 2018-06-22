@@ -1,33 +1,45 @@
 <ion-header>
-  <ion-navbar color="dark">
+  <ion-navbar color="danger">
     <ion-title text-center>
       CRYPTOWALLET
     </ion-title>
   </ion-navbar>
 </ion-header>
-
-<ion-content padding>
-  <h6 text-center><span>Balance</span></h6>
-  <h1 text-center>{{balance}}</h1>
-  <br>
+<ion-content>
+  <div id="contenedor" class="effect6">
+      <h6 text-center><span>Balance</span></h6>
+      <h1 text-center>{{balance}}</h1>
+      <ion-grid>
+          <ion-row>
+            <ion-col col-1 offset-5>
+              <img src="assets/imgs/favicon.ico">      
+            </ion-col>
+            <ion-col>
+                <b>ONX</b>
+            </ion-col>
+          </ion-row>
+      </ion-grid>    
+      <br>
+  </div>
   <ion-grid>
     <ion-row>
       <ion-col>
-        <button block floating ion-button color="dark" (click)="sendCoins()">Enviar</button>
-      </ion-col>
-      <ion-col>
-        <button block floating ion-button color="dark" (click)="depositCoins()">Depositar</button>
-      </ion-col>
-      <ion-col>
-        <button block floating ion-button color="dark" (click)="getEstatus()">Actualizar</button>
+        <ion-card *ngFor="let item of trans">
+          <ion-card-content>
+            <p style="font-size:0.8em;"><b> Amount:</b>  {{item.amount}}</p>
+            <p style="font-size:0.8em;"><b> Send To:</b> {{item.wallet}}</p>
+            <p style="font-size:0.8em;"><b> TxID: </b> {{item.txid}}</p>
+          </ion-card-content>
+        </ion-card>
       </ion-col>
     </ion-row> 
   </ion-grid> 
-  <ion-card *ngFor="let item of trans">
-    <ion-card-content>
-      <p style="font-size:0.8em;"><b> Amount:</b>  {{item.amount}}</p>
-      <p style="font-size:0.8em;"><b> Send To:</b> {{item.wallet}}</p>
-      <p style="font-size:0.8em;"><b> TxID: </b> {{item.txid}}</p>
-    </ion-card-content>
-  </ion-card>
+  <ion-fab right bottom>
+    <button ion-fab color="dark"><ion-icon name="arrow-dropup"></ion-icon></button>
+    <ion-fab-list side="top">
+      <button ion-fab color="danger" (click)="sendCoins()"><ion-icon name="cash"></ion-icon></button>
+      <button ion-fab color="danger" (click)="sendCoins()"><ion-icon name="send"></ion-icon></button>
+      <button ion-fab color="danger" (click)="getEstatus()"><ion-icon name="md-refresh"></ion-icon></button>
+    </ion-fab-list>
+  </ion-fab>
 </ion-content>

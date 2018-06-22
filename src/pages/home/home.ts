@@ -40,17 +40,22 @@ export class HomePage {
       }, 5000);
   }
   checkTrans(){
-    this.storage.get('transacciones').then((trans)=>{
-      
-      if (typeof (trans) != null && typeof(trans) != undefined ){
-        this.trans = trans.reverse(); 
+    this.storage.get('transacciones').then((trans:any)=>{
+      /*console.log(trans.typeof);
+      if (trans.typeof == null && typeof(trans) == undefined ){
+        console.log(123);
+        this.trans = [];
+        return false; 
       }
- 
+      this.trans = trans.reverse();
+      */
     });
   }
   checkBalance(){
       this.storage.get('balance').then(saldo => {
-        this.balance = saldo;
+        if (typeof (saldo) != null && typeof(saldo) != undefined ){
+            this.balance = saldo; 
+          }
         console.log(saldo);
       });
   }
@@ -113,9 +118,9 @@ export class HomePage {
   }
 
   depositCoins(){
-    this.navCtrl.setRoot('RecivePage', { 'wallet': this.principal });
+    this.navCtrl.push('RecivePage', { 'wallet': this.principal });
   }
   sendCoins(){
-    this.navCtrl.setRoot('SendPage');  
+    this.navCtrl.push('SendPage');  
   }
 }
