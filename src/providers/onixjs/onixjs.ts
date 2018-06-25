@@ -49,7 +49,7 @@ export class OnixjsProvider {
           this.mnemonic = strseed;
           this.seed = bip39.mnemonicToSeed(this.mnemonic);
           this.root = bitcoin.HDNode.fromSeedBuffer(this.seed, this.onxnetwork.testnet);
-          console.log('done')
+          console.log( this.mnemonic )
           resolve(true);
         });
       } catch (error) {
@@ -74,7 +74,7 @@ export class OnixjsProvider {
     console.log('done3')
     this.setpath(path);
     this.addrpoint = this.child.getAddress();
-    this.objKeyPairGenerator();//llamar a esta funcion para almacenar estos valores antes que fn getKeyAddr() sea invocada nuevamente
+    //this.objKeyPairGenerator();//llamar a esta funcion para almacenar estos valores antes que fn getKeyAddr() sea invocada nuevamente
     return this.addrpoint;
   }
 
@@ -83,10 +83,16 @@ export class OnixjsProvider {
     this.objKeyPair.push({ addr: this.addrpoint, pvtKey: this.child.keyPair })
    // this.storage.set('pvkey', this.objKeyPair);
   }
+  RefreshAdrressInputsObject(){
+      this.objAddr = [];
+      this.objKeyPair = [];
+  }
 
-  AdrressInputsObject(addr) {
+  AdrressInputsObject(addr){
+    
+    this.objKeyPairGenerator();
     this.objAddr.push({ txid: addr.txid, txvout: addr.vout, pvtKey: this.child.keyPair});
-/*
+/*  
     this.storage.set('inputs', this.objAddr);
     this.storage.get('inputs').then((resp) => {
       console.log(resp);
@@ -95,6 +101,8 @@ export class OnixjsProvider {
   }
 
   sendTransaction(gasto, walletpago, balance) { 
+    
+    console.log(this.objAddr, this.objKeyPair);
     return new Promise((resolve, reject) => {
       try{ 
         
@@ -124,9 +132,9 @@ export class OnixjsProvider {
           if (restante > 0) {
             tx.addOutput(this.generateChangeWallet(), restante);//envio a una addr de cambio addr interna 
           } 
-          for (let index = 0; index < this.objAddr.length; index++) {//firmar las transacciones con la llave privada
+          for (let index = 0; index < this.objKeyPair.length; index++) {//firmar las transacciones con la llave privada
 
-            tx.sign(index, this.objAddr[index].pvtKey); 
+            tx.sign(index, this.objKeyPair[index].pvtKey); 
           }
           console.log(tx.build().toHex());
           resolve(tx.build().toHex()); 
