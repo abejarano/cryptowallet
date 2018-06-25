@@ -21,8 +21,6 @@ export class PinPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage) {
     this.pinObj.slice(0,5);
   }
-
-
   ionViewDidLoad() {
     console.log('ionViewDidLoad PinPage');
   }

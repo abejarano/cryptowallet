@@ -12,8 +12,6 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { QRCodeModule } from 'angular2-qrcode';
 import { MnemonicPage } from '../pages/mnemonic/mnemonic';
 import { PinPage } from '../pages/pin/pin';
-import { SocketIoModule, SocketIoConfig } from 'socket.io'
-const config: SocketIoConfig = { url: 'http://localhost:3001', options: {} };
 
 
 

@@ -18,9 +18,8 @@ export class SendPage {
   balance = 0;
   entrada = false;
   objetoEnvios=[];
-  
   wallet: any;
-  amount: 0;
+  amount: any;
   constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage, private onix: OnixjsProvider, private barcodeScanner: BarcodeScanner, private toast:ToastController) {
  
   }
@@ -59,7 +58,23 @@ export class SendPage {
   scanCode() {
     this.barcodeScanner.scan().then(barcodeData => {
       console.log(barcodeData);
-      this.wallet = barcodeData.text;
+      
+      let str = barcodeData.text;
+      var res = str.split(":", 2);
+      if (res[0] == 'onixcoin') {
+        let wallet = res[1].split('?', 2);
+        let depositAddr = wallet[0]
+        let amount1 = wallet[1].split('=', 2);
+        let depositAmount = amount1[1];
+        this.wallet = depositAddr;
+        this.amount = depositAmount;
+        console.log(depositAddr, depositAmount);
+      } else{
+        this.wallet = barcodeData.text;
+      }
+
+
+
     }, (err) => {
       console.log('Error: ', err);
     });
