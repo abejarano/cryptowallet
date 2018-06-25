@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { OnixjsProvider } from '../../providers/onixjs/onixjs';
 import { Storage } from '@ionic/storage';
+import { HeaderColor } from '@ionic-native/header-color';
+import { StatusBar } from '@ionic-native/status-bar';
 
 @Component({
   selector: 'page-home',
@@ -19,12 +21,23 @@ export class HomePage {
   trans:any;
   acumulador=0;
   saldo = 0;
+  seed :any;
+  balanceUSD:any;
+  balanceVEF:any;
 
 
-  constructor(public navCtrl: NavController, private storage: Storage, private onix: OnixjsProvider) {
+  constructor(public navCtrl: NavController, private storage: Storage, private onix: OnixjsProvider, private headerColor: HeaderColor, private statusBar: StatusBar) {
+    this.headerColor.tint('#D32F2F');
+    // let status bar overlay webview
+    this.statusBar.overlaysWebView(true);
+
+    // set status bar to white
+    this.statusBar.backgroundColorByHexString('#D32F2F');
+
     this.onix.confingAccount().then(resp=>{
       if(resp){ 
         this.onix.RefreshAdrressInputsObject();
+        this.seed = this.onix.mnemonic;
         this.getBalances(0,'ext');
         this.depositAdress();
       }
@@ -38,6 +51,7 @@ export class HomePage {
       setTimeout(() => {
         this.checkBalance(); 
         this.checkTrans();
+        this.checkBalanceFiat();
       }, 5000);
   }
   checkTrans(){
@@ -57,6 +71,7 @@ export class HomePage {
         if (typeof (saldo) != null && typeof(saldo) != undefined ){
             this.balance = saldo; 
           }
+        this.checkBalanceFiat();
         console.log(saldo);
       });
   }
@@ -72,6 +87,12 @@ export class HomePage {
   checkExternalAddress(inx) {
     this.addr = this.onix.getKeyAddr(this.onix.getExternalAddr(inx));
   }
+  checkBalanceFiat(){
+    this.onix.apiPrecios().then((result)=>{
+      this.balanceUSD = (result.data.USD * this.balance).toFixed(4);
+      this.balanceVEF = (result.data.VEF * this.balance).toFixed(4);
+    });
+  }
 
   getBalances(value, type){ 
     console.log(value, type);
@@ -82,7 +103,7 @@ export class HomePage {
         this.checkInternalAddress(value); 
       } 
 
-      if (this.contador == 10) {
+      if (this.contador == 15) {
         this.contador = 0;
         if(!this.entrada){
           this.getBalances(0, 'int');

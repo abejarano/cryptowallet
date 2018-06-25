@@ -12,6 +12,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { QRCodeModule } from 'angular2-qrcode';
 import { MnemonicPage } from '../pages/mnemonic/mnemonic';
 import { PinPage } from '../pages/pin/pin';
+import { HeaderColor } from '@ionic-native/header-color';
 
 
 
@@ -26,6 +27,7 @@ import { PinPage } from '../pages/pin/pin';
     BrowserModule, 
     NgxQRCodeModule,   
     QRCodeModule,
+    
     IonicModule.forRoot(MyApp), 
     IonicStorageModule.forRoot() 
   ],
@@ -42,7 +44,8 @@ import { PinPage } from '../pages/pin/pin';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     OnixjsProvider,
-    BarcodeScanner
+    BarcodeScanner,
+    HeaderColor
   ]
 })
 export class AppModule {}

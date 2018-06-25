@@ -46,7 +46,7 @@ export class OnixjsProvider {
       try {
         //let strseed = "decline toe notable quote orphan captain pitch violin window unaware kick lion";
         this.storage.get('mnemonic').then((strseed) => {
-          this.mnemonic = strseed;
+          this.mnemonic = 'vague kangaroo garden social solve boy often shallow whale abuse gospel romance'//strseed;
           this.seed = bip39.mnemonicToSeed(this.mnemonic);
           this.root = bitcoin.HDNode.fromSeedBuffer(this.seed, this.onxnetwork.testnet);
           console.log( this.mnemonic )
@@ -153,11 +153,15 @@ export class OnixjsProvider {
     let url = 'http://167.99.202.240:3002/api/addr/' + addr + '/utxo';
     return axios.get(url);
   }
-
+ 
   sendInApi(hash){
     let url ='http://167.99.202.240:3002/api/tx/send';
 
-    return axios.post(url, {rawtx: hash});
+    return axios.post(url, { rawtx: hash });
   }
   
+  apiPrecios(){
+    let url = 'https://min-api.cryptocompare.com/data/price?fsym=ONX&tsyms=USD,VEF'
+    return axios.get(url);
+  }
 }
