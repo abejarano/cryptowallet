@@ -10,7 +10,7 @@
       <h6 text-center><span>Balance</span></h6>
       <h1 text-center>{{balance}}</h1>
       <ion-grid>
-          <ion-row>
+          <ion-row> 
             <ion-col col-1 offset-5>
               <img src="assets/imgs/favicon.ico">      
             </ion-col>
@@ -37,7 +37,7 @@
   <ion-fab right bottom>
     <button ion-fab color="dark"><ion-icon name="arrow-dropup"></ion-icon></button>
     <ion-fab-list side="top">
-      <button ion-fab color="danger" (click)="sendCoins()"><ion-icon name="cash"></ion-icon></button>
+      <button ion-fab color="danger" (click)="depositCoins()"><ion-icon name="cash"></ion-icon></button>
       <button ion-fab color="danger" (click)="sendCoins()"><ion-icon name="send"></ion-icon></button>
       <button ion-fab color="danger" (click)="getEstatus()"><ion-icon name="md-refresh"></ion-icon></button>
     </ion-fab-list>

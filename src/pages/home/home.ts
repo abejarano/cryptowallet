@@ -24,6 +24,7 @@ export class HomePage {
   constructor(public navCtrl: NavController, private storage: Storage, private onix: OnixjsProvider) {
     this.onix.confingAccount().then(resp=>{
       if(resp){ 
+        this.onix.RefreshAdrressInputsObject();
         this.getBalances(0,'ext');
         this.depositAdress();
       }
@@ -41,14 +42,14 @@ export class HomePage {
   }
   checkTrans(){
     this.storage.get('transacciones').then((trans:any)=>{
-      /*console.log(trans.typeof);
+      console.log(trans.typeof);
       if (trans.typeof == null && typeof(trans) == undefined ){
         console.log(123);
         this.trans = [];
         return false; 
       }
       this.trans = trans.reverse();
-      */
+      
     });
   }
   checkBalance(){
@@ -79,7 +80,7 @@ export class HomePage {
         this.checkExternalAddress(value);
       }else{
         this.checkInternalAddress(value); 
-      }
+      } 
 
       if (this.contador == 10) {
         this.contador = 0;
